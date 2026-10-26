@@ -1,6 +1,60 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { ENTITY_TYPE_COLORS, type EntityType } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+export function entityTypeColor(type: string): string {
+  return ENTITY_TYPE_COLORS[type as EntityType] ?? ENTITY_TYPE_COLORS.other;
+}
+
+export function getDomainFromUrl(url: string): string {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+}
+
+export function formatRelativeTime(iso: string | null | undefined): string {
+  if (!iso) return "";
+  const then = new Date(iso).getTime();
+  if (Number.isNaN(then)) return "";
+  const diff = Date.now() - then;
+  const mins = Math.round(diff / 60000);
+  if (mins < 1) return "just now";
+  if (mins < 60) return `${mins}m ago`;
+  const hours = Math.round(mins / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.round(hours / 24);
+  if (days < 30) return `${days}d ago`;
+  return new Date(iso).toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+/**
+ * Validates a user-submitted article link. Only http(s) URLs with a real
+ * hostname are accepted, so the pipeline is never pointed at a local address.
+ */
+export function normalizeArticleUrl(input: string): string {
+  const trimmed = input.trim();
+  if (!trimmed) throw new Error("A story URL is required.");
+  let url: URL;
+  try {
+    url = new URL(trimmed);
+  } catch {
+    throw new Error("That doesn't look like a valid URL.");
+  }
+  if (url.protocol !== "http:" && url.protocol !== "https:") {
+    throw new Error("Only http and https article links can be analyzed.");
+  }
+  if (!url.hostname || !url.hostname.includes(".")) {
+    throw new Error("That doesn't look like a valid website address.");
+  }
+  return url.toString();
 }
