@@ -10,7 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as EntitiesRouteImport } from './routes/entities'
+import { Route as EntityIdRouteImport } from './routes/entity.$id'
 import { Route as StoryIdRouteImport } from './routes/story.$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -18,9 +20,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EntitiesRoute = EntitiesRouteImport.update({
   id: '/entities',
   path: '/entities',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EntityIdRoute = EntityIdRouteImport.update({
+  id: '/entity/$id',
+  path: '/entity/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StoryIdRoute = StoryIdRouteImport.update({
@@ -31,31 +43,39 @@ const StoryIdRoute = StoryIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/entities': typeof EntitiesRoute
+  '/entity/$id': typeof EntityIdRoute
   '/story/$id': typeof StoryIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/entities': typeof EntitiesRoute
+  '/entity/$id': typeof EntityIdRoute
   '/story/$id': typeof StoryIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/entities': typeof EntitiesRoute
+  '/entity/$id': typeof EntityIdRoute
   '/story/$id': typeof StoryIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/entities' | '/story/$id'
+  fullPaths: '/' | '/admin' | '/entities' | '/entity/$id' | '/story/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/entities' | '/story/$id'
-  id: '__root__' | '/' | '/entities' | '/story/$id'
+  to: '/' | '/admin' | '/entities' | '/entity/$id' | '/story/$id'
+  id: '__root__' | '/' | '/admin' | '/entities' | '/entity/$id' | '/story/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   EntitiesRoute: typeof EntitiesRoute
+  EntityIdRoute: typeof EntityIdRoute
   StoryIdRoute: typeof StoryIdRoute
 }
 
@@ -68,11 +88,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/entities': {
       id: '/entities'
       path: '/entities'
       fullPath: '/entities'
       preLoaderRoute: typeof EntitiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/entity/$id': {
+      id: '/entity/$id'
+      path: '/entity/$id'
+      fullPath: '/entity/$id'
+      preLoaderRoute: typeof EntityIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/story/$id': {
@@ -87,7 +121,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   EntitiesRoute: EntitiesRoute,
+  EntityIdRoute: EntityIdRoute,
   StoryIdRoute: StoryIdRoute,
 }
 export const routeTree = rootRouteImport
