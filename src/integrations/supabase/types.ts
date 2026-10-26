@@ -14,7 +14,191 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      entities: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          properties: Json
+          subtitle: string
+          type: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          properties?: Json
+          subtitle?: string
+          type: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          properties?: Json
+          subtitle?: string
+          type?: string
+        }
+        Relationships: []
+      }
+      entity_edges: {
+        Row: {
+          created_at: string
+          id: string
+          properties: Json
+          source_id: string
+          target_id: string
+          type: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          properties?: Json
+          source_id: string
+          target_id: string
+          type: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          properties?: Json
+          source_id?: string
+          target_id?: string
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "entity_edges_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "entities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "entity_edges_target_id_fkey"
+            columns: ["target_id"]
+            isOneToOne: false
+            referencedRelation: "entities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sources: {
+        Row: {
+          content: string
+          id: string
+          outlet: string
+          outlet_lean: string
+          retrieved_at: string
+          story_id: string
+          title: string
+          url: string
+        }
+        Insert: {
+          content?: string
+          id?: string
+          outlet?: string
+          outlet_lean?: string
+          retrieved_at?: string
+          story_id: string
+          title?: string
+          url: string
+        }
+        Update: {
+          content?: string
+          id?: string
+          outlet?: string
+          outlet_lean?: string
+          retrieved_at?: string
+          story_id?: string
+          title?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sources_story_id_fkey"
+            columns: ["story_id"]
+            isOneToOne: false
+            referencedRelation: "stories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stories: {
+        Row: {
+          bias_summary: Json
+          created_at: string
+          error_message: string | null
+          id: string
+          objective_summary: string
+          processed_at: string | null
+          raw_text: string | null
+          source_url: string
+          status: string
+          title: string
+        }
+        Insert: {
+          bias_summary?: Json
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          objective_summary?: string
+          processed_at?: string | null
+          raw_text?: string | null
+          source_url: string
+          status?: string
+          title?: string
+        }
+        Update: {
+          bias_summary?: Json
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          objective_summary?: string
+          processed_at?: string | null
+          raw_text?: string | null
+          source_url?: string
+          status?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      story_entities: {
+        Row: {
+          context: string
+          entity_id: string
+          id: string
+          story_id: string
+        }
+        Insert: {
+          context?: string
+          entity_id: string
+          id?: string
+          story_id: string
+        }
+        Update: {
+          context?: string
+          entity_id?: string
+          id?: string
+          story_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "story_entities_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "entities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "story_entities_story_id_fkey"
+            columns: ["story_id"]
+            isOneToOne: false
+            referencedRelation: "stories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
