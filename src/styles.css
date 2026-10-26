@@ -142,3 +142,95 @@
     color: var(--color-foreground);
   }
 }
+
+/* --- Accountability Engine theme ------------------------------------- */
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Source Serif 4", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-ink-50: #f6f7f8;
+  --color-ink-100: #eceef0;
+  --color-ink-200: #d4d8dc;
+  --color-ink-300: #aeb4bb;
+  --color-ink-400: #818a94;
+  --color-ink-500: #636d79;
+  --color-ink-600: #4e5662;
+  --color-ink-700: #40474f;
+  --color-ink-800: #373c43;
+  --color-ink-900: #1d2125;
+  --color-ink-950: #111417;
+
+  --color-accent-50: #ecfdf5;
+  --color-accent-100: #d1fae5;
+  --color-accent-200: #a7f3d0;
+  --color-accent-300: #6ee7b7;
+  --color-accent-400: #34d399;
+  --color-accent-500: #10b981;
+  --color-accent-600: #059669;
+  --color-accent-700: #047857;
+  --color-accent-800: #065f46;
+  --color-accent-900: #064e3b;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    background-color: var(--color-ink-950);
+    color: var(--color-ink-100);
+    font-family: var(--font-sans);
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+    letter-spacing: -0.01em;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: ae-fade-in 0.4s ease-out both;
+  }
+  .animate-slide-up {
+    animation: ae-slide-up 0.5s ease-out both;
+  }
+  .animate-pulse-slow {
+    animation: ae-pulse-slow 2s ease-in-out infinite;
+  }
+}
+
+@keyframes ae-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ae-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ae-pulse-slow {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
